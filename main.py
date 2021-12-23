@@ -51,6 +51,24 @@ def save():
 def exit():
     w.destroy()
 
+def run_file():
+    operating_system = platform.system()
+    if operating_system == 'Linux':
+        try:
+            if save_as_file.name is not None:
+                os.system("python {}".format(save_as_file.name))
+        except AttributeError:
+            if open_file.filename is not None:
+                os.system("python {}".format(open_file.filename.name))
+    elif operating_system == 'Windows':
+        try:
+            if save_as_file.name is not None:
+                os.system("python {}".format(save_as_file.name))
+        except AttributeError:
+            if open_file.filename is not None:
+                os.system("python {}".format(open_file.filename.name))
+
+
 def new():
     main_text.delete(0.0, END)
     w.title("Haardcode")
@@ -91,7 +109,6 @@ def print_file():
             except AttributeError:
                 if open_file.filename is not None:
                     os.system("notepad /p {}".format(open_file.filename.name))
-       
     #Before printing set default printer
     heading = Label(a, text="Printing options", font=font, fg="white", bg="#282828")
     note = Label(a, text="Note: Before you print, please set your default printer", font=font, fg="white", bg="#282828")
@@ -116,6 +133,7 @@ files.add_command(label="Open", command=open_file)
 files.add_command(label="Save", command=save)
 files.add_command(label="Save as..", command=lambda:save_as_file())
 files.add_command(label="Print", command=print_file)
+files.add_command(label="RUN", command=run_file)
 files.add_separator()
 files.add_command(label="Exit", command=exit)
 menubar.add_cascade(label="File", menu=files)
